@@ -2570,94 +2570,6 @@ def computeConfigVariablesAnalytic (h, configVarsList):
     return (configVarsListDelta)    
 
 
-####################################################################################################
-####################################################################################################
-#
-# Procedure to print out the final set of configuration variables x'i, y'i, w'i, and z'i
-#
-####################################################################################################
-####################################################################################################
-
-
-def printConfigVarsComparison(h, configVarsList, configVarsListDelta):
-
-# This print function is not used in this current version of the code;
-#   it was handy during earlier debug stages.    
-            
-    x1 = configVarsList[0]
-    x2 = configVarsList[1]
-    y1 = configVarsList[2]
-    y2 = configVarsList[3]
-    y3 = configVarsList[4] 
-    w1 = configVarsList[5]
-    w2 = configVarsList[6]
-    w3 = configVarsList[7]        
-    z1 = configVarsList[8]
-    z2 = configVarsList[9]
-    z3 = configVarsList[10] 
-    z4 = configVarsList[11]
-    z5 = configVarsList[12]
-    z6 = configVarsList[13] 
-
-    x1Delta = configVarsListDelta[0]
-    x2Delta = configVarsListDelta[1]
-    y1Delta = configVarsListDelta[2]
-    y2Delta = configVarsListDelta[3]
-    y3Delta = configVarsListDelta[4] 
-    w1Delta = configVarsListDelta[5]
-    w2Delta = configVarsListDelta[6]
-    w3Delta = configVarsListDelta[7]        
-    z1Delta = configVarsListDelta[8]
-    z2Delta = configVarsListDelta[9]
-    z3Delta = configVarsListDelta[10] 
-    z4Delta = configVarsListDelta[11]
-    z5Delta = configVarsListDelta[12]
-    z6Delta = configVarsListDelta[13] 
-        
-    sumX = x1+x2 
-    sumXDelta =  x1Delta+x2Delta 
-    print ' '
-    print '  For h =', h, 'The configuration variables are: '
-    print ' '    
-    print '                x1 = %.4f'  % x1,   '   x1Delta  = %.4f' % x1Delta 
-    print '                x2 = %.4f'  % x2,   '   x2Delta  = %.4f' % x2Delta
-    print '   Sum of the x(i) = %.4f'  % sumX, ' sumXDelta  = %.4f' % sumXDelta         
-                        
-    sumZ = z1+2.0*z2+z3 +z4+2.0*z5+z6
-    sumZDelta = z1Delta+2.0*z2Delta+z3Delta +z4Delta+2.0*z5Delta+z6Delta    
-    print ' '
-    print "Totals for the z(i) variables:"
-    print '        (A-A-A) z1 = %.4f'  % z1,   '   z1Delta  = %.4f' % z1Delta  
-    print '(A-A-B & B-A-A) z2 = %.4f'  % z2,   '   z2Delta  = %.4f' % z2Delta   
-    print '        (A-B-A) z3 = %.4f'  % z3,   '   z3Delta  = %.4f' % z3Delta  
-    print '        (B-A-B) z4 = %.4f'  % z4,   '   z4Delta  = %.4f' % z4Delta 
-    print '(A-B-B & B-B-A) z5 = %.4f'  % z5,   '   z5Delta  = %.4f' % z5Delta 
-    print '        (B-B-B) z6 = %.4f'  % z6,   '   z6Delta  = %.4f' % z6Delta         
-    print '   Sum of the z(i) = %.4f'  % sumZ, ' sumZDelta  = %.4f' % sumZDelta         
-                                                       
-    sumY = y1+2.0*y2+y3
-    sumYDelta = y1Delta+2.0*y2Delta+y3Delta        
-    print ' '
-    print 'Totals for the y(i) variables:'
-    print '          (A-A) y1 = %.4f'  % y1,   '   y1Delta  = %.4f' % y1Delta   
-    print '    (A-B & B-A) y2 = %.4f'  % y2,   '   y2Delta  = %.4f' % y2Delta    
-    print '          (B-B) y3 = %.4f'  % y3,   '   y3Delta  = %.4f' % y3Delta  
-    print ' Multiplying by degeneracy factors:'
-    print '   Sum of the y(i) = %.4f'  % sumY, ' sumYDelta  = %.4f' % sumYDelta 
-   
-    sumW = w1+2.0*w2+w3
-    sumWDelta = w1Delta+2.0*w2Delta+w3Delta      
-    print ' '
-    print 'Totals for the w(i) variables:'
-    print '        (A---A) w1 = %.4f'  % w1,   '   w1Delta  = %.4f' % w1Delta 
-    print '(A---B & B---A) w2 = %.4f'  % w2,   '   w2Delta  = %.4f' % w2Delta   
-    print '        (B---B) w3 = %.4f'  % w3,   '   w3Delta  = %.4f' % w3Delta 
-    print ' Multiplying by degeneracy factors:'
-    print '   Sum of the w(i) = %.4f'  % sumW, ' sumWDelta  = %.4f' % sumWDelta
-    print         
-
-    return
-
 
 ####################################################################################################
 #
@@ -3021,7 +2933,7 @@ def adjustMatrixFEMinimum (arraySizeList, unitArray, h, maxRange):
         z1Old = float(configVarsListOld[8])/totalUnitsTimesTwo
         z1New = float(configVarsListNew[8])/totalUnitsTimesTwo         
         z3Old = float(configVarsListOld[10])/totalUnitsTimesTwo
-        z3New = float(configVarsListNew[8])/totalUnitsTimesTwo
+        z3New = float(configVarsListNew[10])/totalUnitsTimesTwo
 
         x1ValsArray[i]   = x1New
         y2ValsArray[i]   = y2New 
@@ -3331,8 +3243,15 @@ def computeConfigAndThermVars(arraySizeList, h, x1TargetVal, maxXDif, numTrials,
     y1Array = np.zeros(numTrials, dtype=np.float)
     y2Array = np.zeros(numTrials, dtype=np.float)        
     y3Array = np.zeros(numTrials, dtype=np.float)
+    w1Array = np.zeros(numTrials, dtype=np.float)
+    w2Array = np.zeros(numTrials, dtype=np.float)        
+    w3Array = np.zeros(numTrials, dtype=np.float)        
     z1Array = np.zeros(numTrials, dtype=np.float)
-    z3Array = np.zeros(numTrials, dtype=np.float)   
+    z2Array = np.zeros(numTrials, dtype=np.float) 
+    z3Array = np.zeros(numTrials, dtype=np.float)
+    z4Array = np.zeros(numTrials, dtype=np.float)     
+    z5Array = np.zeros(numTrials, dtype=np.float)
+    z6Array = np.zeros(numTrials, dtype=np.float)         
     negSArray = np.zeros(numTrials, dtype=np.float)
     EnthEps0Array = np.zeros(numTrials, dtype=np.float)         
     EnthEps1Array = np.zeros(numTrials, dtype=np.float)  
@@ -3355,7 +3274,11 @@ def computeConfigAndThermVars(arraySizeList, h, x1TargetVal, maxXDif, numTrials,
     sumw2 = 0.0
     sumw3 = 0.0    
     sumz1 = 0.0
-    sumz3 = 0.0    
+    sumz2 = 0.0 
+    sumz3 = 0.0
+    sumz4 = 0.0     
+    sumz5 = 0.0
+    sumz6 = 0.0           
     sumNegS = 0.0      
     sumEnthEps0   = 0.0
     sumEnthEps1   = 0.0
@@ -3377,30 +3300,48 @@ def computeConfigAndThermVars(arraySizeList, h, x1TargetVal, maxXDif, numTrials,
         unitArrayForFEMinimum = adjustMatrixFEMinimum (arraySizeList, unitArray, h, maxRange)
         
 
-# obtain the configuration variables (this step was also done while adjusting the array)       
+# obtain the configuration variables (this step was also done while adjusting the array) 
+# The configuration variables list returned from computeConfigVariables is the list of 
+#   RAW COUNTS, meaning that the:
+#   -  x vars need to be divided by the total number of units
+#   -  y, w, and z vars need to be divided by the 2*total number of units, and
+#   -  y2, w2, z2, and z5 vars need to be divided again by 2 to reach their normative values,
+#      so that (e.g.), y1 + 2y2 + y3 = 0, etc. 
+      
         configVarsList = computeConfigVariables (arraySizeList, unitArray)
                                                                 
 # obtain the thermodynamic variables 
         sysVarsList = computeThermodynamicVars (h, configVarsList)   
 
 # store the thermodynamic variables to plot later
-        x1 = float(configVarsList[0])/totalUnits
-        y1 = float(configVarsList[2])/totalUnitsTimesTwo          
-        y2 = float(configVarsList[3])/totalUnitsTimesTwo         
-        y3 = float(configVarsList[4])/totalUnitsTimesTwo
-        w1 = float(configVarsList[5])/totalUnitsTimesTwo          
-        w2 = float(configVarsList[6])/totalUnitsTimesTwo         
-        w3 = float(configVarsList[7])/totalUnitsTimesTwo          
-        z1 = float(configVarsList[8])/totalUnitsTimesTwo  
-        z3 = float(configVarsList[10])/totalUnitsTimesTwo 
-                
+        x1     = float(configVarsList[0])/totalUnits
+        y1     = float(configVarsList[2])/totalUnitsTimesTwo          
+        y2Real = float(configVarsList[3])/(totalUnitsTimesTwo*2.0)        
+        y3     = float(configVarsList[4])/totalUnitsTimesTwo
+        w1     = float(configVarsList[5])/totalUnitsTimesTwo          
+        w2Real = float(configVarsList[6])/(totalUnitsTimesTwo*2.0)         
+        w3     = float(configVarsList[7])/totalUnitsTimesTwo          
+        z1     = float(configVarsList[8])/totalUnitsTimesTwo  
+        z2Real = float(configVarsList[9])/(totalUnitsTimesTwo*2.0) 
+        z3     = float(configVarsList[10])/totalUnitsTimesTwo  
+        z4     = float(configVarsList[11])/totalUnitsTimesTwo 
+        z5Real = float(configVarsList[12])/(totalUnitsTimesTwo*2.0)   
+        z6     = float(configVarsList[13])/totalUnitsTimesTwo 
+                                        
         xArray[i]       = i  # x1
         x1Array[i]      = x1  # x1
         y1Array[i]      = y1
-        y2Array[i]      = y2/2.0  # y2
+        y2Array[i]      = y2Real  # y2
         y3Array[i]      = y3
+        w1Array[i]      = w1
+        w2Array[i]      = w2Real  # w2
+        w3Array[i]      = w3        
         z1Array[i]      = z1  # z1
-        z3Array[i]      = z3  # z1
+        z2Array[i]      = z2Real  # z2        
+        z3Array[i]      = z3  # z3
+        z4Array[i]      = z4  # z4        
+        z5Array[i]      = z5Real  # z5
+        z6Array[i]      = z6  # z6
         # sysValsList = (negS, enthalpy0, enthalpy1, freeEnergy)
         negSArray[i]    = sysVarsList[0] 
         EnthEps0Array[i]   = sysVarsList[1]         
@@ -3411,13 +3352,17 @@ def computeConfigAndThermVars(arraySizeList, h, x1TargetVal, maxXDif, numTrials,
 #        fEnergyArray[i] = sysVarsList[3]-0.6                                                
         sumx1 = sumx1 + x1
         sumy1 = sumy1 + y1
-        sumy2 = sumy2 + y2/2.0
+        sumy2 = sumy2 + y2Real
         sumy3 = sumy3 + y3
         sumw1 = sumw1 + w1
-        sumw2 = sumw2 + w2/2.0
+        sumw2 = sumw2 + w2Real
         sumw3 = sumw3 + w3
         sumz1 = sumz1 + z1
-        sumz3 = sumz3 + z3        
+        sumz2 = sumz2 + z2Real  
+        sumz3 = sumz3 + z3
+        sumz4 = sumz4 + z4 
+        sumz5 = sumz5 + z5Real
+        sumz6 = sumz6 + z6                       
         sumNegS = sumNegS + sysVarsList[0] 
         sumEnthEps0   = sumEnthEps0 + sysVarsList[1]
         sumEnthEps1   = sumEnthEps1 + sysVarsList[2]
@@ -3434,7 +3379,11 @@ def computeConfigAndThermVars(arraySizeList, h, x1TargetVal, maxXDif, numTrials,
     avgw2 = sumw2/denom
     avgw3 = sumw3/denom  
     avgz1 = sumz1/denom
-    avgz3 = sumz3/denom    
+    avgz2 = sumz2/denom    
+    avgz3 = sumz3/denom
+    avgz4 = sumz4/denom 
+    avgz5 = sumz5/denom
+    avgz6 = sumz6/denom     
     avgNegS = sumNegS/denom
     avgEnthEps0 = sumEnthEps0/denom
     avgEnthEps1 = sumEnthEps1/denom    
@@ -3451,7 +3400,11 @@ def computeConfigAndThermVars(arraySizeList, h, x1TargetVal, maxXDif, numTrials,
         print '          y1: %.4f' % (avgy1) 
         print '          y2: %.4f' % (avgy2) 
         print '          z1: %.4f' % (avgz1)
-        print '          z3: %.4f' % (avgz3)           
+        print '          z2: %.4f' % (avgz2) 
+        print '          z3: %.4f' % (avgz3)
+        print '          z4: %.4f' % (avgz4)
+        print '          z5: %.4f' % (avgz5)  
+        print '          z6: %.4f' % (avgz6)                                  
         print '         negS: %.4f' % (avgNegS)   
         print '    Enthalpy0: %.4f' % (avgEnthEps0) 
         print '    Enthalpy1: %.4f' % (avgEnthEps1) 
@@ -3468,24 +3421,122 @@ def computeConfigAndThermVars(arraySizeList, h, x1TargetVal, maxXDif, numTrials,
  
     
             
-    newList = (avgx1, avgy1, avgy2, avgy3, avgw1, avgw2, avgw3, avgz1, avgz3, avgNegS, avgEnthEps0, avgEnthEps1, avgFreeEnergy)
+    newList = (avgx1, avgy1, avgy2, avgy3, avgw1, avgw2, avgw3, avgz1, avgz2, avgz3, avgz4, avgz5, avgz6, 
+               avgNegS, avgEnthEps0, avgEnthEps1, avgFreeEnergy)
     
 
                                                                     
     return (newList) 
     # END - return a set of values for a single trial with x1TargetVal   
+
          
 
 ####################################################################################################
 ####################################################################################################
 #
-# Procedure to print final results, exclusive to the case where h = 0. 
+# Procedure to print out the final set of configuration variables x'i, y'i, w'i, and z'i
+#   This procedure was used for early V&V, to ensure that the configuration variables were
+#     as expected; 
+#   It is not called in the current configuration of this program.
+#
 #
 ####################################################################################################
 ####################################################################################################
 
 
-def printX1ProbAndAnalyticResults (x1ValsArray, y2ValsArray, z1ValsArray, negSValsArray, x1TotalSteps, step, x1StartingVal, x1TargetIncrement):
+def printConfigVarsComparison(h, configVarsList, configVarsListDelta):
+
+# This print function is not used in this current version of the code;
+#   it was handy during earlier debug stages.    
+            
+    x1 = configVarsList[0]
+    x2 = configVarsList[1]
+    y1 = configVarsList[2]
+    y2 = configVarsList[3]
+    y3 = configVarsList[4] 
+    w1 = configVarsList[5]
+    w2 = configVarsList[6]
+    w3 = configVarsList[7]        
+    z1 = configVarsList[8]
+    z2 = configVarsList[9]
+    z3 = configVarsList[10] 
+    z4 = configVarsList[11]
+    z5 = configVarsList[12]
+    z6 = configVarsList[13] 
+
+    x1Delta = configVarsListDelta[0]
+    x2Delta = configVarsListDelta[1]
+    y1Delta = configVarsListDelta[2]
+    y2Delta = configVarsListDelta[3]
+    y3Delta = configVarsListDelta[4] 
+    w1Delta = configVarsListDelta[5]
+    w2Delta = configVarsListDelta[6]
+    w3Delta = configVarsListDelta[7]        
+    z1Delta = configVarsListDelta[8]
+    z2Delta = configVarsListDelta[9]
+    z3Delta = configVarsListDelta[10] 
+    z4Delta = configVarsListDelta[11]
+    z5Delta = configVarsListDelta[12]
+    z6Delta = configVarsListDelta[13] 
+        
+    sumX = x1+x2 
+    sumXDelta =  x1Delta+x2Delta 
+    print ' '
+    print '  For h =', h, 'The configuration variables are: '
+    print ' '    
+    print '                x1 = %.4f'  % x1,   '   x1Delta  = %.4f' % x1Delta 
+    print '                x2 = %.4f'  % x2,   '   x2Delta  = %.4f' % x2Delta
+    print '   Sum of the x(i) = %.4f'  % sumX, ' sumXDelta  = %.4f' % sumXDelta         
+                        
+    sumZ = z1+2.0*z2+z3 +z4+2.0*z5+z6
+    sumZDelta = z1Delta+2.0*z2Delta+z3Delta +z4Delta+2.0*z5Delta+z6Delta    
+    print ' '
+    print "Totals for the z(i) variables:"
+    print '        (A-A-A) z1 = %.4f'  % z1,   '   z1Delta  = %.4f' % z1Delta  
+    print '(A-A-B & B-A-A) z2 = %.4f'  % z2,   '   z2Delta  = %.4f' % z2Delta   
+    print '        (A-B-A) z3 = %.4f'  % z3,   '   z3Delta  = %.4f' % z3Delta  
+    print '        (B-A-B) z4 = %.4f'  % z4,   '   z4Delta  = %.4f' % z4Delta 
+    print '(A-B-B & B-B-A) z5 = %.4f'  % z5,   '   z5Delta  = %.4f' % z5Delta 
+    print '        (B-B-B) z6 = %.4f'  % z6,   '   z6Delta  = %.4f' % z6Delta         
+    print '   Sum of the z(i) = %.4f'  % sumZ, ' sumZDelta  = %.4f' % sumZDelta         
+                                                       
+    sumY = y1+2.0*y2+y3
+    sumYDelta = y1Delta+2.0*y2Delta+y3Delta        
+    print ' '
+    print 'Totals for the y(i) variables:'
+    print '          (A-A) y1 = %.4f'  % y1,   '   y1Delta  = %.4f' % y1Delta   
+    print '    (A-B & B-A) y2 = %.4f'  % y2,   '   y2Delta  = %.4f' % y2Delta    
+    print '          (B-B) y3 = %.4f'  % y3,   '   y3Delta  = %.4f' % y3Delta  
+    print ' Multiplying by degeneracy factors:'
+    print '   Sum of the y(i) = %.4f'  % sumY, ' sumYDelta  = %.4f' % sumYDelta 
+   
+    sumW = w1+2.0*w2+w3
+    sumWDelta = w1Delta+2.0*w2Delta+w3Delta      
+    print ' '
+    print 'Totals for the w(i) variables:'
+    print '        (A---A) w1 = %.4f'  % w1,   '   w1Delta  = %.4f' % w1Delta 
+    print '(A---B & B---A) w2 = %.4f'  % w2,   '   w2Delta  = %.4f' % w2Delta   
+    print '        (B---B) w3 = %.4f'  % w3,   '   w3Delta  = %.4f' % w3Delta 
+    print ' Multiplying by degeneracy factors:'
+    print '   Sum of the w(i) = %.4f'  % sumW, ' sumWDelta  = %.4f' % sumWDelta
+    print         
+
+    return
+                           
+
+####################################################################################################
+####################################################################################################
+#
+# Procedure to print final results, exclusive to the case where h = 0.
+#  This procedure was also used primarily during V&V; it is not called during the
+#  current configuration of this program.  
+#
+####################################################################################################
+####################################################################################################
+
+
+def printX1ProbAndAnalyticResults (x1ValsArray, y2ValsArray, z1ValsArray, negSValsArray, x1TotalSteps, 
+                                   step, x1StartingVal, x1TargetIncrement):
 
     y2AnalyticValsArray     = np.zeros(x1TotalSteps, dtype=np.float)
     z1AnalyticValsArray     = np.zeros(x1TotalSteps, dtype=np.float)
@@ -3614,14 +3665,15 @@ def printUnitArrayModificationResults (x1ValsArray, y2ValsArray,
 ####################################################################################################
 ####################################################################################################
 #
-# Procedure to print the details of the entropy results, for cases where h is not equal to 0. 
+# Procedure to print the details of the entropy results; this is useful for understanding the
+#   various contributions to the entropy term, especially for cases where h is not equal to 0. 
 #
 ####################################################################################################
 ####################################################################################################
 
 
 def printEntropyDetailedResults (x1ValsArray, y1ValsArray, y2ValsArray, y3ValsArray, w1ValsArray, w2ValsArray, w3ValsArray, 
-    z1ValsArray, z3ValsArray, negSValsArray, enthalpy0Array, 
+    z1ValsArray, z2ValsArray, z3ValsArray, z4ValsArray, z5ValsArray, z6ValsArray, negSValsArray, enthalpy0Array, 
     enthalpy1Array, freeEnergyArray, x1TotalSteps, step, x1StartingVal, x1TargetIncrement, hArray, hTotalSteps, hStep):  
 
     x1TargetVal = x1StartingVal
@@ -3644,7 +3696,7 @@ def printEntropyDetailedResults (x1ValsArray, y1ValsArray, y2ValsArray, y3ValsAr
     # Plot the results from that FOR loop (multiple tests of a random grid for a given x1 value)          
     #    print '     and the free energy is in red, also shifted by 0.6.'       
 
-    x2ValsArray           = np.zeros(hTotalSteps, dtype=np.float)
+    x2ValsArray     = np.zeros(hTotalSteps, dtype=np.float)
     xNegSArray      = np.zeros(hTotalSteps, dtype=np.float)
     yNegSArray      = np.zeros(hTotalSteps, dtype=np.float)
     wNegSArray      = np.zeros(hTotalSteps, dtype=np.float)
@@ -3655,34 +3707,36 @@ def printEntropyDetailedResults (x1ValsArray, y1ValsArray, y2ValsArray, y3ValsAr
         xNegSArray[k] = x1ValsArray[k]*log(x1ValsArray[k]) + x2ValsArray[k]*log(x2ValsArray[k])       
         yNegSArray[k]  = y1ValsArray[k]*log(y1ValsArray[k]) + 2.*y2ValsArray[k]*log(y2ValsArray[k]) + y3ValsArray[k]*log(y3ValsArray[k])
         wNegSArray[k]  = w1ValsArray[k]*log(w1ValsArray[k]) + 2.*w2ValsArray[k]*log(w2ValsArray[k]) + w3ValsArray[k]*log(w3ValsArray[k])
-        print '   %.2f' % (hArray[k]), '  %.4f' % (xNegSArray[k]),  '  %.4f' % (yNegSArray[k]), ' %.4f' % (wNegSArray[k]) , '  -   ',' %.4f' % (negSValsArray[k])  
+        zNegSArray[k]  = z1ValsArray[k]*log(z1ValsArray[k]) + 2.*z2ValsArray[k]*log(z2ValsArray[k]) + z3ValsArray[k]*log(z3ValsArray[k]) \
+                       + z4ValsArray[k]*log(z4ValsArray[k]) + 2.*z5ValsArray[k]*log(z5ValsArray[k]) + z6ValsArray[k]*log(z6ValsArray[k]) 
+        print '   %.2f' % (hArray[k]), '  %.4f' % (xNegSArray[k]),  '  %.4f' % (yNegSArray[k]), ' %.4f' % (wNegSArray[k]) , ' %.4f' % (zNegSArray[k]),' %.4f' % (negSValsArray[k])  
         
                                                                         
     pylab.figure(1)
     pylab.plot (hArray, negSValsArray)          
     pylab.plot (hArray, xNegSArray, 'g')
-#    pylab.plot (hArray, deltaArray-0.5, 'c')
-#    pylab.plot (hArray, epsilon1Array-0.5, 'm')          
-#    pylab.plot (hArray, enthalpy1Array-0.5, 'r')
-#    pylab.plot (hArray, freeEnergyArray, 'k')
-           
-    # #   pylab.plot (xArray,fEps1Array,'m')
-    # #   pylab.plot (xArray,fEnergyArray,'r')
+    pylab.plot (hArray, yNegSArray, 'c')
+    pylab.plot (hArray, wNegSArray, 'm')  
+    pylab.plot (hArray, zNegSArray, 'r')             
+
     print ' ' 
     print ' ' 
     print ' Plot of entropy details and the total negative entropy vs. h'
     print ' '
     print ' This plot contains the same information as shown in the previous table.'
     print ' '
-    print '    (This is only value for which probabilistic results will correspond '
-    print '    with the randomly-generated (and modified) array.)'
+    print '    (When h = 0, we have the only value for which probabilistic results will correspond '
+    print '      with the randomly-generated (and modified) array.)'
     print ' '
     print '  The probabilistic negative entropy is in blue,'
-    print '  The probabilistic y2 values (minus 0.8) are in green,' 
-    print '  The probabilistic delta y2 - y1 - y3 values (minus 0.5) are in cyan. '
-#    print '  The epsilon values (minus 0.5) are in maroon,' 
-    print '  The probabilistic enthalpy(1) (minus 0.5) values are in red. ' 
-    print '  The probabilistic free energy values are in black. '        
+    print '  The probabilistic negative x entropy term  is in green,' 
+    print '  The probabilistic negative y entropy term  is in cyan, '
+    print '  The probabilistic negative w entropy term  is in maroon,' 
+    print '  The probabilistic negative z entropy term  is in red.'  
+    print ' ' 
+    print '  The total negEntropy is given as: -(2*negYS + negWS - negXS - 2*negZS).'
+#   from computeThermodynamicVars:  negS = -(2.*Lfy+Lfw-Lfx-2.*Lfz)  
+    print ' '            
     pylab.show()                          
                                                                     
 
@@ -3729,21 +3783,41 @@ def printResults (x1ValsArray, y1ValsArray, y2ValsArray, y3ValsArray, z1ValsArra
     #    print '     and the free energy is in red, also shifted by 0.6.'       
 
     
-
-                                
+            
     pylab.figure(1)
     pylab.plot (hArray, negSValsArray)          
+    pylab.plot (hArray, y2ValsArray, 'g')
+    pylab.plot (hArray, deltaArray, 'c')      
+    pylab.plot (hArray, z3ValsArray, 'm')
+    pylab.plot (hArray, z1ValsArray, 'y')
+                                
+    pylab.figure(2)
+    pylab.plot (hArray, negSValsArray)          
     pylab.plot (hArray, y2ValsArray-0.8, 'g')
-    pylab.plot (hArray, deltaArray-0.5, 'c')
-#    pylab.plot (hArray, epsilon1Array-0.5, 'm')          
+    pylab.plot (hArray, deltaArray-0.5, 'c')      
     pylab.plot (hArray, enthalpy1Array-0.5, 'r')
     pylab.plot (hArray, freeEnergyArray, 'k')
-           
-    # #   pylab.plot (xArray,fEps1Array,'m')
-    # #   pylab.plot (xArray,fEnergyArray,'r')
+
     print ' ' 
-    print ' ' 
+    print ' '
+    print ' Figure 1:' 
     print ' Plot of config. variables and the negative entropy vs. h'
+    print ' '
+    print ' This plot contains the same information as shown in the previous table.'
+    print ' '
+    print '  The probabilistic negative entropy is in blue,'
+    print '  The probabilistic y2 values are in green,' 
+    print '  The probabilistic delta 2.0*y2 - y1 - y3 values are in cyan. '
+    print '  The probabilistic z3 values are in maroon. ' 
+    print '  The probabilistic z1 values are in yellow. ' 
+    print ' '            
+                      
+                                 
+                                                       
+    print ' ' 
+    print ' '
+    print ' Figure 2:' 
+    print ' Plot of deltas in y config. variables, entropy, enthalpy1, and free energy vs. h'
     print ' '
     print ' This plot contains the same information as shown in the previous table.'
     print ' '
@@ -3753,9 +3827,10 @@ def printResults (x1ValsArray, y1ValsArray, y2ValsArray, y3ValsArray, z1ValsArra
     print '  The probabilistic negative entropy is in blue,'
     print '  The probabilistic y2 values (minus 0.8) are in green,' 
     print '  The probabilistic delta 2.0*y2 - y1 - y3 values (minus 0.5) are in cyan. '
-#    print '  The epsilon values (minus 0.5) are in maroon,' 
     print '  The probabilistic enthalpy(1) (minus 0.5) values are in red. ' 
-    print '  The probabilistic free energy values are in black. '        
+    print '  The probabilistic free energy values are in black. ' 
+    print ' ' 
+           
     pylab.show()                          
                                                 
                                                                                                 
@@ -3896,7 +3971,7 @@ def main():
     
     x1TotalSteps = 1
     step = 1     
-    x1StartingVal = 0.45
+    x1StartingVal = 0.35
     x1TargetVal = x1StartingVal
     x1TargetIncrement = float(step)/20.0     
     numTrials = 1
@@ -3952,7 +4027,7 @@ def main():
     x1TotalSteps = 1
    
     # Define parameters for going through the h-increment FOR loop
-    hTotalSteps = 33
+    hTotalSteps = 21
     hStep = 1
     hIncrement = 0.1
 
@@ -3964,7 +4039,11 @@ def main():
     w2ValsArray   = np.zeros(hTotalSteps, dtype=np.float)
     w3ValsArray   = np.zeros(hTotalSteps, dtype=np.float)   
     z1ValsArray   = np.zeros(hTotalSteps, dtype=np.float) 
-    z3ValsArray   = np.zeros(hTotalSteps, dtype=np.float)       
+    z2ValsArray   = np.zeros(hTotalSteps, dtype=np.float)       
+    z3ValsArray   = np.zeros(hTotalSteps, dtype=np.float) 
+    z4ValsArray   = np.zeros(hTotalSteps, dtype=np.float)  
+    z5ValsArray   = np.zeros(hTotalSteps, dtype=np.float) 
+    z6ValsArray   = np.zeros(hTotalSteps, dtype=np.float)      
     negSValsArray = np.zeros(hTotalSteps, dtype=np.float)
     enthalpy0Array= np.zeros(hTotalSteps, dtype=np.float)
     enthalpy1Array= np.zeros(hTotalSteps, dtype=np.float)
@@ -3987,7 +4066,7 @@ def main():
         print '    The current x1TargetVal is: %.4f' % (x1TargetVal) 
         print '  About to start the loop through h values ' 
 
-        hInitial = 0.1
+        hInitial = 0.7
         h = hInitial - hIncrement
         for hVal in range (0, hTotalSteps, hStep):
             h = h + hIncrement
@@ -4003,11 +4082,15 @@ def main():
             w2ValsArray[hVal]    = newArrayList[5]
             w3ValsArray[hVal]    = newArrayList[6]
             z1ValsArray[hVal]    = newArrayList[7]
-            z3ValsArray[hVal]    = newArrayList[8]    
-            negSValsArray[hVal]  = newArrayList[9] 
-            enthalpy0Array[hVal] = newArrayList[10] 
-            enthalpy1Array[hVal] = newArrayList[11] 
-            freeEnergyArray[hVal] = newArrayList[12]
+            z2ValsArray[hVal]    = newArrayList[8]    
+            z3ValsArray[hVal]    = newArrayList[9]
+            z4ValsArray[hVal]    = newArrayList[10] 
+            z5ValsArray[hVal]    = newArrayList[11]
+            z6ValsArray[hVal]    = newArrayList[12]             
+            negSValsArray[hVal]  = newArrayList[13] 
+            enthalpy0Array[hVal] = newArrayList[14] 
+            enthalpy1Array[hVal] = newArrayList[15] 
+            freeEnergyArray[hVal] = newArrayList[16]
             hArray[hVal]          = h 
             print ' ' 
             print ' h = ', h, ' hVal (iteration number) = ', hVal, ' hArray[hVal] = ', hArray[hVal]                
@@ -4019,7 +4102,7 @@ def main():
         printX1ProbAndAnalyticResults (x1ValsArray, y2ValsArray, z1ValsArray, negSValsArray, x1TotalSteps, step, x1StartingVal, x1TargetIncrement)
     else:
         printEntropyDetailedResults (x1ValsArray, y1ValsArray, y2ValsArray, y3ValsArray, w1ValsArray, w2ValsArray, w3ValsArray,
-            z1ValsArray, z3ValsArray,
+            z1ValsArray, z2ValsArray, z3ValsArray, z4ValsArray, z5ValsArray, z6ValsArray, 
             negSValsArray, enthalpy0Array, enthalpy1Array, freeEnergyArray,           
             x1TotalSteps, step, x1StartingVal, x1TargetIncrement, hArray, hTotalSteps, hStep)
         printResults (x1ValsArray, y1ValsArray, y2ValsArray, y3ValsArray, z1ValsArray, z3ValsArray,
